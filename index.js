@@ -91,8 +91,16 @@ window.onmousemove = function(e) {
     draw();
 };
 
-
-
+window.onmousedown = function() {
+    if(!selected) {
+        for(let i in datas) {
+            if(isCursorInRect(datas[i])) {
+                selected = datas[i];
+                bCtx.strokeRect(selected.x, selected.y, selected.w, selected.h);
+            }
+        }
+    }
+};
 
 window.onload = () => {
     init();
