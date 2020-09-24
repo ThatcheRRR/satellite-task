@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('./assets/Roboto-Regular.ttf');
+}
+
+* {
+    font-family: 'Roboto';
+}
+
+main {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-column-gap: 40px;
+}
+
+#big {
+    border: 1px solid black;
+    width: 1400px;
+    height: 800px;
+}
+
+#small {
+    border: 1px solid red;
+}
