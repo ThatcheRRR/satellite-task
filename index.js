@@ -67,6 +67,31 @@ function draw() {
     }
 }
 
+window.onmousemove = function(e) {
+    mouse.x = e.clientX - big.offsetLeft;
+    mouse.y = e.clientY - big.offsetTop;
+    if(selected) {
+        const newLocation = {
+            x: limits.left,
+            y: limits.top
+        };
+        if (e.clientX > limits.right) {
+            newLocation.x = limits.right;
+        } else if (e.clientX > limits.left) {
+            newLocation.x = e.clientX;
+        }
+        if (e.clientY > limits.bottom) {
+            newLocation.y = limits.bottom;
+        } else if (e.clientY > limits.top) {
+            newLocation.y = e.clientY;
+        }
+        selected.x = newLocation.x - big.offsetLeft;
+        selected.y = newLocation.y - big.offsetTop;
+    }
+    draw();
+};
+
+
 
 
 window.onload = () => {
