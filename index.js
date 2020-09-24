@@ -19,6 +19,8 @@ const limits = {
     left: big.offsetLeft
 };
 
+let isMouseDown = false;
+
 let counter = 0;
 
 let selected = null;
@@ -70,7 +72,7 @@ function draw() {
 window.onmousemove = function(e) {
     mouse.x = e.clientX - big.offsetLeft;
     mouse.y = e.clientY - big.offsetTop;
-    if(selected) {
+    if(selected && isMouseDown) {
         const newLocation = {
             x: limits.left,
             y: limits.top
@@ -91,15 +93,29 @@ window.onmousemove = function(e) {
     draw();
 };
 
-window.onmousedown = function() {
-    if(!selected) {
-        for(let i in datas) {
-            if(isCursorInRect(datas[i])) {
-                selected = datas[i];
-                bCtx.strokeRect(selected.x, selected.y, selected.w, selected.h);
-            }
+big.onmousedown = function() {
+    for(let i in datas) {
+        if(isCursorInRect(datas[i])) {
+            selected = datas[i];
         }
     }
+    isMouseDown = true;
+};
+
+document.addEventListener('keydown', e => {
+    if(e.code === 'Delete' && selected) {
+        datas.splice(datas.findIndex(item => item.id === selected.id), 1);
+        selected = null;
+    }
+});
+
+window.onmouseup = function(e) {
+    if(e.target !== big && selected) {
+        const ind = datas.findIndex(item => item.id === selected.id);
+        datas.splice(ind, 1);
+        selected = null;
+    }
+    isMouseDown = false;
 };
 
 window.onload = () => {
