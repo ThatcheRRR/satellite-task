@@ -1,6 +1,8 @@
 const big = document.getElementById('big');
 const rectangle = document.getElementById('rectangle');
 const circle = document.getElementById('circle');
+const newCanv = document.createElement('canvas');
+const newCtx = newCanv.getContext('2d');
 const bCtx = big.getContext('2d');
 const rCtx = rectangle.getContext('2d');
 const cCtx = circle.getContext('2d');
@@ -89,6 +91,12 @@ window.onmousemove = function(e) {
         }
         selected.x = newLocation.x - big.offsetLeft;
         selected.y = newLocation.y - big.offsetTop;
+        newCanv.style.position = 'absolute';
+        newCanv.style.zIndex = '1000';
+        newCanv.style.left = `${e.clientX}px`;
+        newCanv.style.top = `${e.clientY}px`;
+        newCtx.putImageData(selected.imageData, 0, 0);      
+        document.body.append(newCanv);
     }
     draw();
 };
@@ -114,6 +122,7 @@ window.onmouseup = function(e) {
         const ind = datas.findIndex(item => item.id === selected.id);
         datas.splice(ind, 1);
         selected = null;
+        newCanv.remove();
     }
     isMouseDown = false;
 };
